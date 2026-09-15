@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Dark Cyberpunk Background -->
+  <rect width="64" height="64" rx="12" fill="#0d0e15"/>
+  <!-- Glowing Border -->
+  <rect x="2" y="2" width="60" height="60" rx="10" fill="none" stroke="#00f3ff" stroke-width="3"/>
+  <!-- Geometry Dash Style Cube -->
+  <rect x="18" y="18" width="28" height="28" rx="4" fill="#ff0055" stroke="#ffffff" stroke-width="2"/>
+  <!-- Inner Cube Detail / Eye -->
+  <rect x="26" y="26" width="12" height="12" fill="#00f3ff"/>
+</svg>
