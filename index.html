@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Geometry Rush - Neon Clone</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============ BACKGROUND DECOR ============ -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <!-- ============ MAIN MENU SCREEN ============ -->
+  <section id="menu-screen" class="screen active">
+    <div class="menu-box">
+      <h1 class="game-title">
+        <span class="title-geo">GEOMETRY</span><span class="title-rush">RUSH</span>
+      </h1>
+      <p class="subtitle">// A Vanilla JS Geometry Dash Clone //</p>
+
+      <div class="level-select">
+
+        <button class="level-card" id="btn-level-easy" data-level="easy">
+          <div class="level-card-header">
+            <span class="level-icon">▲</span>
+            <span class="level-name">LEVEL 1</span>
+          </div>
+          <div class="level-diff diff-easy">EASY</div>
+          <div class="level-stats">
+            <span>Best: <b id="stat-best-easy">0%</b></span>
+            <span>Attempts: <b id="stat-attempt-easy">0</b></span>
+          </div>
+          <div class="play-hint">KLIK UNTUK MAIN</div>
+        </button>
+
+        <button class="level-card locked" id="btn-level-normal" data-level="normal">
+          <div class="level-card-header">
+            <span class="level-icon">■</span>
+            <span class="level-name">LEVEL 2</span>
+          </div>
+          <div class="level-diff diff-normal">NORMAL</div>
+          <div class="level-stats">
+            <span>Best: <b id="stat-best-normal">0%</b></span>
+            <span>Attempts: <b id="stat-attempt-normal">0</b></span>
+          </div>
+          <div class="lock-overlay">
+            <span class="lock-icon">🔒</span>
+            <span class="lock-text">Selesaikan Level 1 (100%)</span>
+          </div>
+        </button>
+
+      </div>
+
+      <div class="global-stats">
+        <span>Total Percobaan: <b id="stat-total-attempts">0</b></span>
+        <span id="mute-toggle" class="mute-btn">🔊 SOUND ON</span>
+      </div>
+
+      <p class="controls-hint">Kontrol: <b>[SPACE]</b> atau <b>[KLIK/TAP]</b> untuk melompat</p>
+    </div>
+  </section>
+
+  <!-- ============ IN-GAME SCREEN ============ -->
+  <section id="game-screen" class="screen">
+    <div class="hud">
+      <div class="progress-wrap">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <span class="progress-percent" id="progress-percent">0%</span>
+      </div>
+      <div class="hud-right">
+        <span class="attempt-badge" id="attempt-badge">Attempt #1</span>
+        <button class="icon-btn" id="btn-pause">⏸</button>
+      </div>
+    </div>
+
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+
+    <!-- Pause Overlay -->
+    <div id="pause-overlay" class="overlay hidden">
+      <div class="overlay-box">
+        <h2>PAUSED</h2>
+        <button class="btn btn-neon" id="btn-resume">▶ LANJUTKAN</button>
+        <button class="btn btn-outline" id="btn-pause-menu">⏹ MENU UTAMA</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GAME OVER SCREEN ============ -->
+  <section id="gameover-screen" class="screen">
+    <div class="result-box gameover-box">
+      <h2 class="result-title go-title">GAME OVER</h2>
+      <div class="crash-icon">✕</div>
+      <p class="result-desc">Kamu hancur berkeping-keping...</p>
+      <div class="result-stats">
+        <div class="stat-item">
+          <span class="stat-label">Progress</span>
+          <span class="stat-value" id="go-percent">0%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Attempt</span>
+          <span class="stat-value" id="go-attempt">#1</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Best Record</span>
+          <span class="stat-value" id="go-best">0%</span>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-neon" id="btn-retry">↻ RETRY</button>
+        <button class="btn btn-outline" id="btn-gohome">⌂ MENU UTAMA</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VICTORY SCREEN ============ -->
+  <section id="victory-screen" class="screen">
+    <div class="result-box victory-box">
+      <h2 class="result-title win-title">LEVEL COMPLETE!</h2>
+      <div class="win-icon">★</div>
+      <p class="result-desc" id="win-desc">Kamu berhasil mencapai garis finish!</p>
+      <div class="result-stats">
+        <div class="stat-item">
+          <span class="stat-label">Progress</span>
+          <span class="stat-value">100%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Attempt</span>
+          <span class="stat-value" id="win-attempt">#1</span>
+        </div>
+      </div>
+      <p class="unlock-msg hidden" id="unlock-msg">🔓 LEVEL 2 (NORMAL) TERBUKA!</p>
+      <div class="result-actions">
+        <button class="btn btn-neon" id="btn-next">→ LEVEL BERIKUTNYA</button>
+        <button class="btn btn-outline" id="btn-victory-home">⌂ MENU UTAMA</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
