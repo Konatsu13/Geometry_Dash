@@ -937,3 +937,1862 @@ class Game {
 window.addEventListener('DOMContentLoaded', () => {
   window.gameInstance = new Game();
 });
+
+/* =========================================================
+   INTERACTIVE 6 LEVEL CAROUSEL
+   ========================================================= */
+
+(() => {
+    const track = document.getElementById("level-carousel-track");
+    const prev = document.getElementById("btn-carousel-prev");
+    const next = document.getElementById("btn-carousel-next");
+    const dots = document.getElementById("carousel-dots");
+
+    if (!track || !prev || !next) return;
+
+    const cards = Array.from(track.querySelectorAll(".level-card"));
+
+    let current = 0;
+    let startX = 0;
+    let dragging = false;
+
+    /* Buat indikator */
+    if (dots) {
+        cards.forEach((_, index) => {
+            const dot = document.createElement("button");
+
+            dot.type = "button";
+            dot.className = "carousel-dot";
+
+            dot.addEventListener("click", () => {
+                goToLevel(index);
+            });
+
+            dots.appendChild(dot);
+        });
+    }
+
+    function updateCarousel() {
+        track.style.transform =
+            `translateX(-${current * 100}%)`;
+
+        if (dots) {
+            const dotItems =
+                dots.querySelectorAll(".carousel-dot");
+
+            dotItems.forEach((dot, index) => {
+                dot.classList.toggle(
+                    "active",
+                    index === current
+                );
+            });
+        }
+    }
+
+    function goToLevel(index) {
+        if (index < 0) {
+            index = cards.length - 1;
+        }
+
+        if (index >= cards.length) {
+            index = 0;
+        }
+
+        current = index;
+        updateCarousel();
+    }
+
+    prev.addEventListener("click", () => {
+        goToLevel(current - 1);
+    });
+
+    next.addEventListener("click", () => {
+        goToLevel(current + 1);
+    });
+
+    /* Klik kartu level */
+    cards.forEach((card, index) => {
+
+        card.addEventListener("click", () => {
+
+            const level =
+                Number(card.dataset.level);
+
+            /*
+             * Kalau game kamu sudah mempunyai fungsi
+             * startLevel(), gunakan fungsi tersebut.
+             */
+            if (typeof window.game !== "undefined" &&
+                typeof window.game.startLevel === "function") {
+
+                window.game.startLevel(level);
+
+            } else if (typeof startLevel === "function") {
+
+                startLevel(level);
+
+            } else {
+
+                console.warn(
+                    "Fungsi startLevel() tidak ditemukan."
+                );
+            }
+        });
+    });
+
+    /* Swipe HP */
+    track.addEventListener("touchstart", event => {
+        startX = event.touches[0].clientX;
+        dragging = true;
+    }, { passive: true });
+
+    track.addEventListener("touchend", event => {
+
+        if (!dragging) return;
+
+        const endX = event.changedTouches[0].clientX;
+        const distance = endX - startX;
+
+        dragging = false;
+
+        if (Math.abs(distance) < 45) return;
+
+        if (distance < 0) {
+            goToLevel(current + 1);
+        } else {
+            goToLevel(current - 1);
+        }
+
+    }, { passive: true });
+
+    /* Keyboard */
+    document.addEventListener("keydown", event => {
+
+        if (event.key === "ArrowLeft") {
+            goToLevel(current - 1);
+        }
+
+        if (event.key === "ArrowRight") {
+            goToLevel(current + 1);
+        }
+    });
+
+    updateCarousel();
+
+})();
+
+/* ==========================================================================
+   UI FIX — TAMBAHKAN DI PALING BAWAH script.js
+   Memperbaiki level selector yang kosong/rusak tanpa menghapus sistem lama.
+   ========================================================================== */
+
+(() => {
+    const LEVELS = [
+        {
+            id: 'easy',
+            number: 1,
+            name: 'STEREO START',
+            difficulty: 'EASY',
+            icon: '▲',
+            pattern: PATTERN_EASY,
+            speed: CONFIG.SPEED_EASY
+        },
+        {
+            id: 'normal',
+            number: 2,
+            name: 'NEON STEPS',
+            difficulty: 'NORMAL',
+            icon: '■',
+            pattern: PATTERN_NORMAL,
+            speed: CONFIG.SPEED_NORMAL
+        },
+        {
+            id: 'hard',
+            number: 3,
+            name: 'SKY MACHINE',
+            difficulty: 'HARD',
+            icon: '➤',
+            pattern:
+                G(9) + 'X' + G(7) + 'XX' + G(9) +
+                '.' + 'BBB' + '.' + G(8) +
+                'X' + G(6) + 'XX' + G(10),
+            speed: 6.7
+        },
+        {
+            id: 'harder',
+            number: 4,
+            name: 'GRAVITY POP',
+            difficulty: 'HARDER',
+            icon: '●',
+            pattern:
+                G(8) + 'XX' + G(7) + 'X' + G(6) +
+                '.' + 'BBB' + '.' + G(7) +
+                'XX' + G(6) + 'X' + G(7) +
+                '.' + 'BB' + '.' + G(9),
+            speed: 7.1
+        },
+        {
+            id: 'insane',
+            number: 5,
+            name: 'PULSE FACTORY',
+            difficulty: 'INSANE',
+            icon: '◆',
+            pattern:
+                G(7) + 'X' + G(6) + 'XX' + G(6) +
+                '.' + 'BB' + '.' + G(6) +
+                'X' + G(5) + 'XX' + G(7) +
+                '.' + 'BBB' + '.' + G(8),
+            speed: 7.7
+        },
+        {
+            id: 'demon',
+            number: 6,
+            name: 'FINAL OVERDRIVE',
+            difficulty: 'DEMON',
+            icon: '☠',
+            pattern:
+                G(6) + 'XX' + G(5) + 'X' + G(5) +
+                '.' + 'BB' + '.' + G(5) +
+                'XX' + G(5) + 'X' + G(5) +
+                '.' + 'BBB' + '.' + G(6) +
+                'XX' + G(7),
+            speed: 8.4
+        }
+    ];
+
+    const oldMenuBox =
+        document.querySelector('#menu-screen .menu-box');
+
+    if (!oldMenuBox) return;
+
+    const oldSelector =
+        oldMenuBox.querySelector('.level-select');
+
+    if (!oldSelector) return;
+
+    /*
+     * Ganti isi selector kosong dengan selector yang benar.
+     * Elemen lama tetap berada di DOM, hanya isinya yang dibangun ulang.
+     */
+
+    oldSelector.innerHTML = `
+        <div class="gd-level-picker">
+
+            <button
+                type="button"
+                class="gd-carousel-arrow"
+                id="gd-prev-level"
+                aria-label="Previous level">
+                ‹
+            </button>
+
+            <div class="gd-carousel-window">
+
+                <div
+                    class="gd-carousel-track"
+                    id="gd-level-track">
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="gd-carousel-arrow"
+                id="gd-next-level"
+                aria-label="Next level">
+                ›
+            </button>
+
+        </div>
+
+        <div
+            class="gd-carousel-dots"
+            id="gd-level-dots">
+        </div>
+    `;
+
+    const track =
+        document.getElementById('gd-level-track');
+
+    const dots =
+        document.getElementById('gd-level-dots');
+
+    const previous =
+        document.getElementById('gd-prev-level');
+
+    const next =
+        document.getElementById('gd-next-level');
+
+    if (!track) return;
+
+    /*
+     * Buat 6 kartu level.
+     */
+
+    LEVELS.forEach((level, index) => {
+
+        const card =
+            document.createElement('button');
+
+        card.type = 'button';
+
+        card.className =
+            'gd-level-card';
+
+        card.dataset.level =
+            level.id;
+
+        card.dataset.index =
+            index;
+
+        card.innerHTML = `
+            <div class="gd-card-glow"></div>
+
+            <div class="gd-card-icon">
+                ${level.icon}
+            </div>
+
+            <div class="gd-card-number">
+                LEVEL ${level.number}
+            </div>
+
+            <div class="gd-card-name">
+                ${level.name}
+            </div>
+
+            <div class="
+                gd-card-difficulty
+                gd-difficulty-${level.difficulty.toLowerCase()}
+            ">
+                ${level.difficulty}
+            </div>
+
+            <div class="gd-card-stats">
+
+                <span>
+                    BEST
+                    <b id="gd-best-${level.id}">
+                        0%
+                    </b>
+                </span>
+
+                <span>
+                    ATTEMPTS
+                    <b id="gd-attempt-${level.id}">
+                        0
+                    </b>
+                </span>
+
+            </div>
+
+            <div
+                class="gd-card-lock"
+                id="gd-lock-${level.id}">
+                🔒
+            </div>
+
+            <div class="gd-card-action">
+                PLAY
+            </div>
+        `;
+
+        track.appendChild(card);
+
+        const dot =
+            document.createElement('button');
+
+        dot.type = 'button';
+
+        dot.className =
+            'gd-carousel-dot';
+
+        dot.dataset.index =
+            index;
+
+        dot.setAttribute(
+            'aria-label',
+            `Level ${level.number}`
+        );
+
+        dots?.appendChild(dot);
+    });
+
+    let current = 0;
+
+    function getGame() {
+        return window.gameInstance;
+    }
+
+    function refreshLocks() {
+
+        const game = getGame();
+
+        if (!game) return;
+
+        LEVELS.forEach((level, index) => {
+
+            /*
+             * Level pertama selalu terbuka.
+             * Level berikutnya terbuka setelah level sebelumnya selesai.
+             */
+
+            const unlocked =
+                index === 0 ||
+                game.storage.isUnlocked(level.id);
+
+            const card =
+                track.querySelector(
+                    `[data-level="${level.id}"]`
+                );
+
+            const lock =
+                document.getElementById(
+                    `gd-lock-${level.id}`
+                );
+
+            if (card) {
+                card.classList.toggle(
+                    'locked',
+                    !unlocked
+                );
+            }
+
+            if (lock) {
+                lock.textContent =
+                    unlocked
+                        ? '✓'
+                        : '🔒';
+            }
+
+            const best =
+                document.getElementById(
+                    `gd-best-${level.id}`
+                );
+
+            const attempts =
+                document.getElementById(
+                    `gd-attempt-${level.id}`
+                );
+
+            if (best) {
+                best.textContent =
+                    `${game.storage.getBest(level.id)}%`;
+            }
+
+            if (attempts) {
+                attempts.textContent =
+                    game.storage.getAttempts(
+                        level.id
+                    );
+            }
+        });
+    }
+
+    function updateCarousel() {
+
+        track.style.transform =
+            `translateX(-${current * 100}%)`;
+
+        document
+            .querySelectorAll('.gd-carousel-dot')
+            .forEach((dot, index) => {
+
+                dot.classList.toggle(
+                    'active',
+                    index === current
+                );
+            });
+
+        document
+            .querySelectorAll('.gd-level-card')
+            .forEach((card, index) => {
+
+                card.classList.toggle(
+                    'selected',
+                    index === current
+                );
+            });
+    }
+
+    function goTo(index) {
+
+        current =
+            (index + LEVELS.length) %
+            LEVELS.length;
+
+        updateCarousel();
+        refreshLocks();
+    }
+
+    previous?.addEventListener(
+        'click',
+        () => goTo(current - 1)
+    );
+
+    next?.addEventListener(
+        'click',
+        () => goTo(current + 1)
+    );
+
+    /*
+     * Klik kartu.
+     */
+
+    track
+        .querySelectorAll('.gd-level-card')
+        .forEach(card => {
+
+            card.addEventListener(
+                'click',
+                () => {
+
+                    const game =
+                        getGame();
+
+                    if (!game) return;
+
+                    const level =
+                        LEVELS[
+                            Number(
+                                card.dataset.index
+                            )
+                        ];
+
+                    if (
+                        Number(card.dataset.index) !== 0 &&
+                        !game.storage.isUnlocked(
+                            level.id
+                        )
+                    ) {
+                        return;
+                    }
+
+                    game.startLevel(
+                        level.id
+                    );
+                }
+            );
+        });
+
+    /*
+     * Swipe.
+     */
+
+    let touchStartX = 0;
+
+    track.addEventListener(
+        'touchstart',
+        event => {
+            touchStartX =
+                event.touches[0].clientX;
+        },
+        { passive: true }
+    );
+
+    track.addEventListener(
+        'touchend',
+        event => {
+
+            const touchEndX =
+                event.changedTouches[0].clientX;
+
+            const distance =
+                touchEndX - touchStartX;
+
+            if (
+                Math.abs(distance) < 40
+            ) {
+                return;
+            }
+
+            goTo(
+                current +
+                (distance < 0 ? 1 : -1)
+            );
+        },
+        { passive: true }
+    );
+
+    /*
+     * Keyboard.
+     */
+
+    document.addEventListener(
+        'keydown',
+        event => {
+
+            if (
+                document.activeElement?.tagName ===
+                'INPUT'
+            ) {
+                return;
+            }
+
+            if (
+                event.key === 'ArrowLeft'
+            ) {
+                goTo(current - 1);
+            }
+
+            if (
+                event.key === 'ArrowRight'
+            ) {
+                goTo(current + 1);
+            }
+        }
+    );
+
+    /*
+     * Perbaiki binding Game lama yang mencari
+     * #btn-level-easy dan #btn-level-normal.
+     */
+
+    if (
+        typeof Game !== 'undefined'
+    ) {
+
+        Game.prototype._bindUI =
+            function() {
+
+                const bind =
+                    (id, callback) => {
+
+                        const element =
+                            document.getElementById(id);
+
+                        if (element) {
+                            element.addEventListener(
+                                'click',
+                                callback
+                            );
+                        }
+                    };
+
+                bind(
+                    'btn-pause',
+                    () => this.pauseGame()
+                );
+
+                bind(
+                    'btn-resume',
+                    () => this.resumeGame()
+                );
+
+                bind(
+                    'btn-pause-menu',
+                    () => this.goToMenu()
+                );
+
+                bind(
+                    'btn-retry',
+                    () => this.startLevel(
+                        this.currentLevelKey
+                    )
+                );
+
+                bind(
+                    'btn-gohome',
+                    () => this.goToMenu()
+                );
+
+                bind(
+                    'btn-next',
+                    () => {
+
+                        const index =
+                            LEVELS.findIndex(
+                                level =>
+                                    level.id ===
+                                    this.currentLevelKey
+                            );
+
+                        const nextLevel =
+                            LEVELS[index + 1];
+
+                        if (
+                            nextLevel &&
+                            this.storage.isUnlocked(
+                                nextLevel.id
+                            )
+                        ) {
+                            this.startLevel(
+                                nextLevel.id
+                            );
+                        } else {
+                            this.goToMenu();
+                        }
+                    }
+                );
+
+                bind(
+                    'btn-victory-home',
+                    () => this.goToMenu()
+                );
+
+                    
+            };
+
+        Game.prototype._refreshMenuStats =
+            function() {
+
+                refreshLocks();
+
+                const total =
+                    document.getElementById(
+                        'stat-total-attempts'
+                    );
+
+                if (total) {
+                    total.textContent =
+                        this.storage.getTotalAttempts();
+                }
+            };
+
+        /*
+         * Start level sekarang menerima semua 6 level.
+         */
+
+        const originalStartLevel =
+            Game.prototype.startLevel;
+
+        Game.prototype.startLevel =
+            function(levelKey) {
+
+                const config =
+                    LEVELS.find(
+                        level =>
+                            level.id === levelKey
+                    );
+
+                if (!config) {
+                    return originalStartLevel.call(
+                        this,
+                        levelKey
+                    );
+                }
+
+                if (
+                    config.number > 1 &&
+                    !this.storage.isUnlocked(
+                        config.id
+                    )
+                ) {
+                    return;
+                }
+
+                this.currentLevelKey =
+                    config.id;
+
+                this.level =
+                    LevelBuilder.build(
+                        config.pattern,
+                        config.speed,
+                        config.name
+                    );
+
+                this.player.reset();
+
+                this.particles.clear();
+
+                this.cameraX = 0;
+
+                this.bestAtStart =
+                    this.storage.getBest(
+                        config.id
+                    );
+
+                this.currentAttemptNumber =
+                    this.storage.registerAttempt(
+                        config.id
+                    );
+
+                const badge =
+                    document.getElementById(
+                        'attempt-badge'
+                    );
+
+                if (badge) {
+                    badge.textContent =
+                        `Attempt #${this.currentAttemptNumber}`;
+                }
+
+                this.state =
+                    'playing';
+
+                this.audio.startBGM();
+
+                this.showScreen(
+                    'game-screen'
+                );
+            };
+
+        /*
+         * Unlock otomatis berurutan.
+         */
+
+        const originalVictory =
+            Game.prototype.triggerVictory;
+
+        Game.prototype.triggerVictory =
+            function() {
+
+                this.storage.updateBestProgress(
+                    this.currentLevelKey,
+                    100
+                );
+
+                const index =
+                    LEVELS.findIndex(
+                        level =>
+                            level.id ===
+                            this.currentLevelKey
+                    );
+
+                const nextLevel =
+                    LEVELS[index + 1];
+
+                if (nextLevel) {
+
+                    this.storage.unlockLevel(
+                        nextLevel.id
+                    );
+                }
+
+                originalVictory.call(this);
+
+                setTimeout(
+                    refreshLocks,
+                    0
+                );
+            };
+    }
+
+    /*
+     * Setelah Game selesai dibuat, refresh UI.
+     */
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        () => {
+
+            setTimeout(() => {
+
+                const game =
+                    getGame();
+
+                if (game) {
+                    refreshLocks();
+                }
+
+                updateCarousel();
+
+            }, 0);
+        }
+    );
+
+    updateCarousel();
+
+})();
+
+/* ==========================================================================
+   GAMEPLAY FIX
+   1. LEVEL DIPERPANJANG
+   2. JUMP LEBIH RESPONSIF
+   3. JUMP BUFFER
+   4. COYOTE TIME
+   5. KEYBOARD + MOUSE + TOUCH
+   ========================================================================== */
+
+(() => {
+    'use strict';
+
+    /* ======================================================================
+       1. PANJANG LEVEL
+       ====================================================================== */
+
+    /*
+     * Pola lama tidak dihapus.
+     * Kita hanya membuat pola baru yang jauh lebih panjang
+     * dari pola yang sudah ada.
+     */
+
+    const LONG_EASY =
+        PATTERN_EASY +
+        G(18) + 'X' +
+        G(20) + 'X' +
+        G(24) + 'X' +
+        G(21) + 'X' +
+        G(26) + 'X' +
+        G(22) + 'X' +
+        G(28) + 'X' +
+        G(24) + 'X' +
+        G(30) + 'X' +
+        G(25) + 'X' +
+        G(28) + 'X' +
+        G(32) + 'X' +
+        G(24) + 'X' +
+        G(30) + 'X' +
+        G(26) + 'X' +
+        G(34);
+
+    const LONG_NORMAL =
+        PATTERN_NORMAL +
+        G(12) + 'X' +
+        G(9) + 'XX' +
+        G(11) +
+        '.BB.' +
+        G(10) +
+        'X' +
+        G(8) +
+        'XX' +
+        G(11) +
+        '.' + 'BBB' + '.' +
+        G(12) +
+        'X' +
+        G(9) +
+        'XX' +
+        G(12) +
+        'X' +
+        G(8) +
+        '.' + 'BB' + '.' +
+        G(11) +
+        'XX' +
+        G(10) +
+        'X' +
+        G(13) +
+        '.' + 'BBB' + '.' +
+        G(12) +
+        'XX' +
+        G(11) +
+        'X' +
+        G(14) +
+        'XX' +
+        G(12) +
+        '.' + 'BB' + '.' +
+        G(15) +
+        'X' +
+        G(13) +
+        'XX' +
+        G(16);
+
+    /*
+     * Level tambahan supaya durasi keseluruhan game juga panjang.
+     */
+
+    const LONG_HARD =
+        G(14) + 'X' +
+        G(9) + 'XX' +
+        G(12) + 'X' +
+        G(8) + 'XX' +
+        G(10) +
+        '.BB.' +
+        G(10) + 'X' +
+        G(8) + 'XX' +
+        G(11) + 'X' +
+        G(9) +
+        '.BBB.' +
+        G(11) + 'XX' +
+        G(10) + 'X' +
+        G(13) + 'XX' +
+        G(9) + 'X' +
+        G(11) +
+        '.BB.' +
+        G(12) + 'X' +
+        G(8) + 'XX' +
+        G(12) + 'X' +
+        G(10) + 'XX' +
+        G(14) + 'X' +
+        G(12) +
+        '.BBB.' +
+        G(13) + 'XX' +
+        G(11) + 'X' +
+        G(15);
+
+    const LONG_HARDER =
+        G(12) + 'XX' +
+        G(8) + 'X' +
+        G(9) + 'XX' +
+        G(7) +
+        '.BB.' +
+        G(9) + 'X' +
+        G(7) + 'XX' +
+        G(9) + 'X' +
+        G(8) +
+        '.BBB.' +
+        G(9) + 'XX' +
+        G(7) + 'X' +
+        G(10) + 'XX' +
+        G(8) + 'X' +
+        G(9) +
+        '.BB.' +
+        G(10) + 'XX' +
+        G(8) + 'X' +
+        G(11) + 'XX' +
+        G(9) +
+        '.BBB.' +
+        G(10) + 'X' +
+        G(8) + 'XX' +
+        G(12) + 'X' +
+        G(9) + 'XX' +
+        G(13);
+
+    const LONG_INSANE =
+        G(10) + 'XX' +
+        G(7) + 'X' +
+        G(8) + 'XX' +
+        G(7) +
+        '.BB.' +
+        G(8) + 'XX' +
+        G(7) + 'X' +
+        G(9) + 'XX' +
+        G(7) +
+        '.BBB.' +
+        G(8) + 'X' +
+        G(7) + 'XX' +
+        G(8) + 'X' +
+        G(7) +
+        '.BB.' +
+        G(8) + 'XX' +
+        G(7) + 'X' +
+        G(9) + 'XX' +
+        G(8) +
+        '.BBB.' +
+        G(9) + 'X' +
+        G(7) + 'XX' +
+        G(10) + 'X' +
+        G(8) + 'XX' +
+        G(11);
+
+    const LONG_DEMON =
+        G(9) + 'XX' +
+        G(6) + 'X' +
+        G(7) + 'XX' +
+        G(6) +
+        '.BB.' +
+        G(7) + 'XX' +
+        G(6) + 'X' +
+        G(8) + 'XX' +
+        G(6) +
+        '.BBB.' +
+        G(7) + 'X' +
+        G(6) + 'XX' +
+        G(7) + 'X' +
+        G(6) +
+        '.BB.' +
+        G(8) + 'XX' +
+        G(6) + 'X' +
+        G(8) + 'XX' +
+        G(7) +
+        '.BBB.' +
+        G(8) + 'XX' +
+        G(6) + 'X' +
+        G(9) + 'XX' +
+        G(8) + 'X' +
+        G(10);
+
+
+    /* ======================================================================
+       2. JUMP PHYSICS
+       ====================================================================== */
+
+    /*
+     * Jangan terlalu berat.
+     * Angka ini membuat lompatan terasa lebih dekat dengan Geometry Dash.
+     */
+
+    CONFIG.GRAVITY = 0.64;
+    CONFIG.JUMP_VELOCITY = -14.2;
+
+
+    /*
+     * Override jump lama.
+     *
+     * Jump buffer:
+     * kalau tombol ditekan sedikit sebelum menyentuh tanah,
+     * input disimpan dan otomatis dilakukan ketika mendarat.
+     *
+     * Coyote time:
+     * kalau pemain baru saja meninggalkan tanah,
+     * masih ada beberapa frame untuk melakukan jump.
+     */
+
+    Player.prototype.jump = function(audio, particles) {
+
+        if (!this.alive) {
+            return;
+        }
+
+        /*
+         * Buffer dibuat cukup panjang supaya input
+         * tidak gampang hilang.
+         */
+
+        this.jumpBufferTimer = 12;
+
+        const canJump =
+            this.onGround ||
+            this.coyoteTimer > 0;
+
+        if (canJump) {
+
+            this.performResponsiveJump(
+                audio,
+                particles
+            );
+        }
+    };
+
+
+    Player.prototype.performResponsiveJump =
+        function(audio, particles) {
+
+            if (!this.alive) {
+                return;
+            }
+
+            this.vy =
+                CONFIG.JUMP_VELOCITY;
+
+            this.onGround =
+                false;
+
+            this.coyoteTimer =
+                0;
+
+            this.jumpBufferTimer =
+                0;
+
+            this.targetRotation +=
+                Math.PI / 2;
+
+            /*
+             * Audio tidak boleh membuat jump gagal
+             * kalau AudioContext sedang bermasalah.
+             */
+
+            try {
+                audio?.playJump();
+            } catch (error) {
+                console.warn(
+                    'Jump SFX error:',
+                    error
+                );
+            }
+
+            try {
+
+                particles?.spawnJumpBurst(
+                    CONFIG.PLAYER_X +
+                        this.size / 2,
+
+                    this.y +
+                        this.size,
+
+                    '#00f0ff'
+                );
+
+            } catch (error) {
+                // Particle gagal tidak boleh menghentikan gameplay.
+            }
+        };
+
+
+    /*
+     * Update fisika pemain.
+     */
+
+    Player.prototype.update = function(particles) {
+
+        if (!this.alive) {
+            return;
+        }
+
+        /*
+         * COYOTE TIME
+         */
+
+        if (this.onGround) {
+
+            this.coyoteTimer = 10;
+
+        } else if (
+            this.coyoteTimer > 0
+        ) {
+
+            this.coyoteTimer--;
+        }
+
+
+        /*
+         * JUMP BUFFER
+         */
+
+        if (
+            this.jumpBufferTimer > 0
+        ) {
+
+            this.jumpBufferTimer--;
+        }
+
+
+        /*
+         * GRAVITY
+         */
+
+        this.vy +=
+            CONFIG.GRAVITY;
+
+        this.y +=
+            this.vy;
+
+
+        /*
+         * Rotasi kubus.
+         */
+
+        const diff =
+            this.targetRotation -
+            this.rotation;
+
+        this.rotation +=
+            diff * 0.25;
+
+
+        /*
+         * Trail.
+         */
+
+        this.trailTimer++;
+
+        if (
+            this.trailTimer % 3 === 0
+        ) {
+
+            try {
+
+                particles.spawnTrail(
+                    CONFIG.PLAYER_X,
+
+                    this.y +
+                        this.size / 2,
+
+                    'rgba(0,240,255,0.55)'
+                );
+
+            } catch (error) {}
+        }
+    };
+
+
+    /*
+     * Saat mendarat:
+     *
+     * kalau sebelumnya user sudah menekan Space,
+     * langsung lompat lagi.
+     */
+
+    Player.prototype.land = function(groundTopY) {
+
+        this.y =
+            groundTopY -
+            this.size;
+
+        this.vy =
+            0;
+
+        this.onGround =
+            true;
+
+        this.coyoteTimer =
+            10;
+
+
+        /*
+         * JUMP BUFFER
+         *
+         * Ini yang membuat:
+         *
+         * Space Space Space
+         *
+         * terasa tetap responsif walaupun
+         * tombol ditekan beberapa frame terlalu cepat.
+         */
+
+        if (
+            this.jumpBufferTimer > 0 &&
+            this.alive
+        ) {
+
+            this.performResponsiveJump(
+                window.gameInstance?.audio,
+                window.gameInstance?.particles
+            );
+
+            return;
+        }
+
+
+        /*
+         * Rapikan rotasi ketika mendarat.
+         */
+
+        this.targetRotation =
+            Math.round(
+                this.targetRotation /
+                (Math.PI / 2)
+            ) *
+            (Math.PI / 2);
+
+        this.rotation =
+            this.targetRotation;
+    };
+
+
+    /* ======================================================================
+       3. INPUT SUPER RESPONSIF
+       ====================================================================== */
+
+    let jumpPressed = false;
+
+
+    function performJumpInput(event) {
+
+        /*
+         * Jangan sampai tombol UI seperti PAUSE
+         * dianggap sebagai jump.
+         */
+
+        if (
+            event?.target &&
+            (
+                event.target.closest?.(
+                    'button'
+                ) ||
+                event.target.closest?.(
+                    'input'
+                )
+            )
+        ) {
+            return;
+        }
+
+
+        const game =
+            window.gameInstance;
+
+        if (!game) {
+            return;
+        }
+
+        if (
+            game.state !== 'playing'
+        ) {
+            return;
+        }
+
+
+        /*
+         * Cegah browser melakukan aksi default
+         * seperti scroll karena Space.
+         */
+
+        if (event) {
+            event.preventDefault();
+        }
+
+
+        /*
+         * Jangan trigger berulang karena
+         * pointer event yang sama.
+         */
+
+        if (jumpPressed) {
+            return;
+        }
+
+        jumpPressed = true;
+
+
+        /*
+         * Langsung kirim ke Player.
+         */
+
+        game.player.jump(
+            game.audio,
+            game.particles
+        );
+    }
+
+
+    function releaseJumpInput(event) {
+
+        if (event) {
+            event.preventDefault();
+        }
+
+        jumpPressed = false;
+    }
+
+
+    /*
+     * KEYBOARD
+     *
+     * Window dipakai agar input tetap masuk
+     * walaupun fokus browser sedang bukan canvas.
+     */
+
+    window.addEventListener(
+        'keydown',
+        event => {
+
+            if (
+                event.code === 'Space' ||
+                event.code === 'ArrowUp'
+            ) {
+
+                event.preventDefault();
+
+                /*
+                 * Abaikan key repeat.
+                 * Satu tekan = satu jump.
+                 */
+
+                if (!event.repeat) {
+                    performJumpInput(event);
+                }
+            }
+        },
+        {
+            passive: false
+        }
+    );
+
+
+    window.addEventListener(
+        'keyup',
+        event => {
+
+            if (
+                event.code === 'Space' ||
+                event.code === 'ArrowUp'
+            ) {
+
+                releaseJumpInput(event);
+            }
+        },
+        {
+            passive: false
+        }
+    );
+
+
+    /*
+     * MOUSE + TOUCH
+     *
+     * Pointer Events lebih stabil daripada
+     * mencampur mousedown + touchstart.
+     */
+
+    document.addEventListener(
+        'pointerdown',
+        event => {
+
+            if (
+                event.pointerType === 'mouse' ||
+                event.pointerType === 'touch' ||
+                event.pointerType === 'pen'
+            ) {
+
+                performJumpInput(event);
+            }
+        },
+        {
+            passive: false
+        }
+    );
+
+
+    document.addEventListener(
+        'pointerup',
+        event => {
+
+            if (
+                event.pointerType === 'mouse' ||
+                event.pointerType === 'touch' ||
+                event.pointerType === 'pen'
+            ) {
+
+                releaseJumpInput(event);
+            }
+        },
+        {
+            passive: false
+        }
+    );
+
+
+    document.addEventListener(
+        'pointercancel',
+        releaseJumpInput,
+        {
+            passive: false
+        }
+    );
+
+
+    /* ======================================================================
+       4. LEVEL LEBIH PANJANG
+       ====================================================================== */
+
+    /*
+     * Simpan fungsi startLevel yang lama.
+     */
+
+    const oldStartLevel =
+        Game.prototype.startLevel;
+
+
+    Game.prototype.startLevel =
+        function(levelKey) {
+
+            /*
+             * Easy
+             */
+
+            if (
+                levelKey === 'easy'
+            ) {
+
+                this.currentLevelKey =
+                    'easy';
+
+                this.level =
+                    LevelBuilder.build(
+                        LONG_EASY,
+                        CONFIG.SPEED_EASY,
+                        'easy'
+                    );
+
+            }
+
+
+            /*
+             * Normal
+             */
+
+            else if (
+                levelKey === 'normal'
+            ) {
+
+                this.currentLevelKey =
+                    'normal';
+
+                this.level =
+                    LevelBuilder.build(
+                        LONG_NORMAL,
+                        CONFIG.SPEED_NORMAL,
+                        'normal'
+                    );
+
+            }
+
+
+            /*
+             * Level tambahan.
+             *
+             * Kalau UI 6 level kamu sudah aktif,
+             * level ini langsung bisa digunakan.
+             */
+
+            else if (
+                levelKey === 'hard'
+            ) {
+
+                this.currentLevelKey =
+                    'hard';
+
+                this.level =
+                    LevelBuilder.build(
+                        LONG_HARD,
+                        6.3,
+                        'hard'
+                    );
+
+            }
+
+            else if (
+                levelKey === 'harder'
+            ) {
+
+                this.currentLevelKey =
+                    'harder';
+
+                this.level =
+                    LevelBuilder.build(
+                        LONG_HARDER,
+                        6.8,
+                        'harder'
+                    );
+
+            }
+
+            else if (
+                levelKey === 'insane'
+            ) {
+
+                this.currentLevelKey =
+                    'insane';
+
+                this.level =
+                    LevelBuilder.build(
+                        LONG_INSANE,
+                        7.3,
+                        'insane'
+                    );
+
+            }
+
+            else if (
+                levelKey === 'demon'
+            ) {
+
+                this.currentLevelKey =
+                    'demon';
+
+                this.level =
+                    LevelBuilder.build(
+                        LONG_DEMON,
+                        7.8,
+                        'demon'
+                    );
+
+            }
+
+            else {
+
+                /*
+                 * Level lama lainnya tetap menggunakan
+                 * fungsi asli.
+                 */
+
+                return oldStartLevel.call(
+                    this,
+                    levelKey
+                );
+            }
+
+
+            /* ==============================================================
+               RESET LEVEL
+               ============================================================== */
+
+            this.player.reset();
+
+            this.particles.clear();
+
+            this.cameraX = 0;
+
+            this.bestAtStart =
+                this.storage.getBest(
+                    this.currentLevelKey
+                );
+
+
+            /*
+             * Attempt tetap memakai sistem lama.
+             */
+
+            this.currentAttemptNumber =
+                this.storage.registerAttempt(
+                    this.currentLevelKey
+                );
+
+
+            const attemptBadge =
+                document.getElementById(
+                    'attempt-badge'
+                );
+
+            if (attemptBadge) {
+
+                attemptBadge.textContent =
+                    `Attempt #${this.currentAttemptNumber}`;
+            }
+
+
+            /*
+             * Reset progress bar.
+             */
+
+            const progressFill =
+                document.getElementById(
+                    'progress-fill'
+                );
+
+            const progressPercent =
+                document.getElementById(
+                    'progress-percent'
+                );
+
+            if (progressFill) {
+                progressFill.style.width =
+                    '0%';
+            }
+
+            if (progressPercent) {
+                progressPercent.textContent =
+                    '0%';
+            }
+
+
+            /*
+             * Game dimulai.
+             */
+
+            this.state =
+                'playing';
+
+
+            /*
+             * Audio.
+             */
+
+            try {
+                this.audio.startBGM();
+            } catch (error) {
+                console.warn(
+                    'BGM error:',
+                    error
+                );
+            }
+
+
+            this.showScreen(
+                'game-screen'
+            );
+        };
+
+
+    /* ======================================================================
+       5. COLLISION LEBIH RAMAH UNTUK JUMP
+       ====================================================================== */
+
+    const oldCheckCollisions =
+        Game.prototype.checkCollisions;
+
+
+    Game.prototype.checkCollisions =
+        function() {
+
+            const player =
+                this.player;
+
+            /*
+             * Collision asli tetap dipakai.
+             */
+
+            oldCheckCollisions.call(
+                this
+            );
+
+
+            /*
+             * Kalau player masih hidup,
+             * jangan melakukan perubahan tambahan.
+             */
+
+            if (!player.alive) {
+                return;
+            }
+
+
+            /*
+             * Anti "stuck" di lantai.
+             *
+             * Kalau player sudah hampir menyentuh
+             * permukaan tanah, snap ke permukaan.
+             */
+
+            if (
+                player.vy >= 0 &&
+                player.y +
+                    player.size >=
+                    CONFIG.GROUND_Y - 3
+            ) {
+
+                const column =
+                    Math.floor(
+                        player.worldX /
+                        CONFIG.TILE
+                    );
+
+                if (
+                    !this.level.isGapAt(
+                        column
+                    )
+                ) {
+
+                    player.land(
+                        CONFIG.GROUND_Y
+                    );
+                }
+            }
+        };
+
+
+    /* ======================================================================
+       6. FIX MOBILE
+       ====================================================================== */
+
+    /*
+     * Browser mobile kadang melakukan scrolling
+     * saat user menekan layar.
+     */
+
+    const gameCanvas =
+        document.getElementById(
+            'gameCanvas'
+        );
+
+    if (gameCanvas) {
+
+        gameCanvas.style.touchAction =
+            'none';
+
+        gameCanvas.style.userSelect =
+            'none';
+
+        gameCanvas.style.webkitUserSelect =
+            'none';
+
+        gameCanvas.style.webkitTouchCallout =
+            'none';
+    }
+
+
+    /* ======================================================================
+       7. INFO CONSOLE
+       ====================================================================== */
+
+    console.log(
+        '%cGeometry Rush Gameplay Fix aktif',
+        'color:#00f0ff;font-weight:bold'
+    );
+
+    console.log(
+        '✓ Level diperpanjang'
+    );
+
+    console.log(
+        '✓ Jump buffer aktif'
+    );
+
+    console.log(
+        '✓ Coyote time aktif'
+    );
+
+    console.log(
+        '✓ Keyboard + mouse + touch aktif'
+    );
+
+})();
