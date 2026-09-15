@@ -110,12 +110,96 @@ html, body {
   margin-bottom: 30px;
 }
 
+/* =========================================================
+   6 LEVEL SELECTOR
+   ========================================================= */
+
 .level-select {
-  display: flex;
-  gap: 18px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    width: 100%;
+    max-width: 720px;
+    margin: 24px auto;
+}
+
+.level-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px;
+    border: 2px solid rgba(255,255,255,.12);
+    border-radius: 16px;
+    background: rgba(255,255,255,.06);
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: .2s ease;
+}
+
+.level-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,255,255,.35);
+    background: rgba(255,255,255,.1);
+}
+
+.level-card.locked {
+    opacity: .55;
+}
+
+.level-number {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: rgba(255,255,255,.1);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.level-info h3 {
+    margin: 0 0 7px;
+    font-size: 17px;
+}
+
+.difficulty {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    opacity: .85;
+}
+
+.easy {
+    color: #5cff8d;
+}
+
+.normal {
+    color: #ffe45c;
+}
+
+.hard {
+    color: #ffad5c;
+}
+
+.harder {
+    color: #ff735c;
+}
+
+.insane {
+    color: #ff4d8d;
+}
+
+.demon {
+    color: #c77dff;
+}
+
+@media (max-width: 600px) {
+    .level-select {
+        grid-template-columns: 1fr;
+    }
 }
 
 .level-card {
@@ -429,4 +513,1375 @@ html, body {
   .level-select { flex-direction: column; align-items: center; }
   .level-card { width: 100%; max-width: 300px; }
   .game-title { letter-spacing: 2px; }
+}
+/* ==========================================================================
+   ADDITION: NEW LEVEL SELECTOR
+   ========================================================================== */
+
+#menu-extra-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.menu-control-btn {
+  border: 1px solid var(--border-glow);
+  background: rgba(18, 18, 31, 0.85);
+  color: #eaf6ff;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.menu-control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.25);
+}
+
+#level-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 840px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 10px auto 18px;
+}
+
+.carousel-window {
+  width: 270px;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+#level-carousel-track {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  transition: transform 0.3s ease;
+}
+
+#level-carousel-track .level-card {
+  flex: 0 0 260px;
+  width: 260px;
+}
+
+.carousel-btn {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--border-glow);
+  border-radius: 50%;
+  background: var(--bg-panel);
+  color: var(--neon-cyan);
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.carousel-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 18px var(--border-glow);
+}
+
+#carousel-dots {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+#carousel-dots .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#carousel-dots .dot.active {
+  width: 20px;
+  border-radius: 10px;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+
+/* ==========================================================================
+   ADDITION: HUD
+   ========================================================================== */
+
+#hud-level-name {
+  color: var(--neon-pink);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  border: 1px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.08);
+  white-space: nowrap;
+}
+
+.mode-badge.mode-ship {
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+}
+
+.mode-badge.mode-ufo {
+  border-color: #ffa600;
+  color: #ffa600;
+}
+
+.mode-badge.mode-robot {
+  border-color: var(--neon-purple);
+  color: var(--neon-purple);
+}
+
+.mode-icon {
+  font-size: 0.85rem;
+}
+
+
+/* ==========================================================================
+   ADDITION: PORTAL SCREEN FLASH
+   ========================================================================== */
+
+#portal-flash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background: rgba(0, 240, 255, 0.22);
+  opacity: 0;
+}
+
+#portal-flash.flash-active {
+  animation: portalFlash 0.18s ease-out;
+}
+
+@keyframes portalFlash {
+  0% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* ==========================================================================
+   ADDITION: RESPONSIVE LEVEL SELECTOR
+   ========================================================================== */
+
+@media (max-width: 600px) {
+  #level-carousel {
+    max-width: 100%;
+  }
+
+  .carousel-window {
+    width: min(260px, calc(100vw - 120px));
+  }
+
+  #level-carousel-track .level-card {
+    width: min(250px, calc(100vw - 120px));
+    flex-basis: min(250px, calc(100vw - 120px));
+  }
+
+  #hud-level-name {
+    font-size: 0.62rem;
+  }
+
+  .mode-badge {
+    font-size: 0.58rem;
+    padding: 4px 7px;
+  }
+}
+
+
+/* =========================================================
+   6 LEVEL CAROUSEL
+   ========================================================= */
+
+.level-select {
+    width: 100%;
+    max-width: 760px;
+    margin: 25px auto;
+}
+
+.level-carousel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.level-carousel-window {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 22px;
+}
+
+.level-carousel-track {
+    display: flex;
+    transition: transform .45s cubic-bezier(.22, .61, .36, 1);
+    touch-action: pan-y;
+}
+
+.level-card {
+    min-width: 100%;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    gap: 22px;
+
+    padding: 28px;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.12),
+            rgba(255,255,255,.035)
+        );
+
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+}
+
+.level-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,255,255,.35);
+    background: rgba(255,255,255,.13);
+    box-shadow: 0 15px 40px rgba(0,0,0,.25);
+}
+
+.level-card:active {
+    transform: scale(.98);
+}
+
+.level-card-icon {
+    width: 82px;
+    height: 82px;
+
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.09);
+
+    font-size: 38px;
+}
+
+.level-card-content {
+    min-width: 0;
+}
+
+.level-number {
+    display: block;
+    margin-bottom: 5px;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    opacity: .55;
+}
+
+.level-card-content h3 {
+    margin: 0 0 9px;
+
+    font-size: 25px;
+    line-height: 1.1;
+}
+
+.level-difficulty {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.level-difficulty.easy {
+    color: #65f58a;
+}
+
+.level-difficulty.normal {
+    color: #ffe15c;
+}
+
+.level-difficulty.hard {
+    color: #ffb45c;
+}
+
+.level-difficulty.harder {
+    color: #ff765c;
+}
+
+.level-difficulty.insane {
+    color: #ff5798;
+}
+
+.level-difficulty.demon {
+    color: #bd7cff;
+}
+
+/* Tombol geser */
+
+.carousel-btn {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.08);
+    color: inherit;
+
+    font-size: 32px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.carousel-btn:hover {
+    background: rgba(255,255,255,.16);
+    transform: scale(1.08);
+}
+
+.carousel-btn:active {
+    transform: scale(.94);
+}
+
+/* Titik indikator */
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 16px;
+}
+
+.carousel-dot {
+    width: 7px;
+    height: 7px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.25);
+    padding: 0;
+
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.carousel-dot.active {
+    width: 24px;
+    border-radius: 10px;
+    background: currentColor;
+}
+
+/* HP */
+
+@media (max-width: 600px) {
+
+    .level-carousel {
+        gap: 6px;
+    }
+
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 27px;
+    }
+
+    .level-card {
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .level-card-icon {
+        width: 62px;
+        height: 62px;
+        border-radius: 16px;
+        font-size: 28px;
+    }
+
+    .level-card-content h3 {
+        font-size: 20px;
+    }
+}
+/* ============================================================================
+   ADDITION: GEOMETRY DASH EXPANSION UI/UX
+   ============================================================================ */
+
+#gd-expansion-ui {
+  width: min(94vw, 760px);
+  margin: 8px auto 0;
+}
+
+.gd-top-controls,
+.gd-level-heading,
+.gd-level-browser {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.gd-top-controls {
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.gd-control,
+.gd-arrow,
+.gd-level-card,
+.gd-dot {
+  font: inherit;
+  color: #eaf6ff;
+  border: 0;
+}
+
+.gd-control {
+  padding: 9px 13px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px;
+  background: rgba(10,10,20,.72);
+  cursor: pointer;
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    background .18s ease;
+}
+
+.gd-control:hover {
+  transform: translateY(-1px);
+  border-color: var(--neon-cyan);
+  background: rgba(0,240,255,.09);
+}
+
+.gd-level-heading {
+  margin: 4px 0 8px;
+  font-size: 12px;
+  letter-spacing: 1.6px;
+  font-weight: 900;
+}
+
+#gd-level-caption {
+  color: var(--neon-cyan);
+}
+
+#gd-level-counter {
+  color: #8ca5b8;
+}
+
+.gd-level-browser {
+  width: 100%;
+}
+
+.gd-arrow {
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  background: rgba(18,18,31,.92);
+  border: 1px solid rgba(0,240,255,.28);
+  color: var(--neon-cyan);
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow:
+    0 0 18px rgba(0,240,255,.08);
+}
+
+.gd-arrow:hover {
+  background: rgba(0,240,255,.12);
+  transform: scale(1.04);
+}
+
+.gd-arrow:active {
+  transform: scale(.96);
+}
+
+.gd-level-window {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(10,10,20,.56);
+  box-shadow:
+    inset 0 0 30px rgba(0,0,0,.35),
+    0 0 25px rgba(0,240,255,.06);
+}
+
+#gd-level-track {
+  display: flex;
+  width: 100%;
+  transition:
+    transform .28s cubic-bezier(.2,.8,.2,1);
+}
+
+.gd-level-card {
+  position: relative;
+
+  flex: 0 0 100%;
+
+  min-height: 170px;
+
+  padding: 20px 22px;
+
+  display: grid;
+
+  grid-template-columns:
+    58px
+    1fr
+    auto;
+
+  grid-template-rows:
+    auto
+    1fr;
+
+  align-items: center;
+
+  gap: 5px 15px;
+
+  text-align: left;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.075),
+      rgba(255,255,255,.025)
+    );
+
+  cursor: pointer;
+
+  transition:
+    background .2s ease,
+    transform .2s ease;
+}
+
+.gd-level-card:hover:not(.locked) {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,240,255,.11),
+      rgba(255,46,230,.06)
+    );
+}
+
+.gd-level-card.locked {
+  cursor: not-allowed;
+  opacity: .55;
+  filter: grayscale(.25);
+}
+
+.gd-level-card.selected {
+  box-shadow:
+    inset 0 0 0 1px
+    rgba(0,240,255,.18);
+}
+
+.gd-card-icon {
+  grid-row: 1 / 3;
+
+  display: grid;
+  place-items: center;
+
+  width: 58px;
+  height: 58px;
+
+  border-radius: 16px;
+
+  background:
+    rgba(0,240,255,.08);
+
+  color: var(--neon-cyan);
+
+  font-size: 28px;
+
+  text-shadow:
+    0 0 14px currentColor;
+}
+
+.gd-card-main {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.gd-card-main strong {
+  font-size: 11px;
+  letter-spacing: 1.8px;
+  color: #8ca5b8;
+}
+
+.gd-card-main b {
+  font-size: clamp(18px, 3vw, 25px);
+  color: #fff;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gd-card-main small {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--neon-pink);
+}
+
+.gd-card-main em {
+  font-size: 11px;
+  color: #9eb0bc;
+  font-style: normal;
+}
+
+.gd-card-mode {
+  align-self: start;
+
+  padding: 7px 9px;
+
+  border: 1px solid rgba(255,255,255,.13);
+
+  border-radius: 999px;
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .8px;
+
+  color: #d9ecf7;
+}
+
+.gd-lock {
+  grid-column: 3;
+  justify-self: end;
+
+  color: var(--neon-green);
+  font-size: 16px;
+}
+
+.gd-dots {
+  display: flex;
+  justify-content: center;
+
+  gap: 7px;
+
+  margin: 10px 0 4px;
+}
+
+.gd-dot {
+  width: 7px;
+  height: 7px;
+
+  padding: 0;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,.2);
+
+  cursor: pointer;
+
+  transition:
+    transform .18s ease,
+    background .18s ease,
+    box-shadow .18s ease;
+}
+
+.gd-dot.active {
+  transform: scale(1.55);
+
+  background:
+    var(--neon-cyan);
+
+  box-shadow:
+    0 0 10px
+    var(--neon-cyan);
+}
+
+.gd-hint {
+  margin: 8px auto 0;
+
+  max-width: 680px;
+
+  color: #7f95a5;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+#hud-level-name {
+  max-width: 42vw;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#hud-mode-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 6px 9px;
+
+  border-radius: 999px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.14);
+
+  background:
+    rgba(10,10,20,.72);
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .7px;
+}
+
+#hud-mode-badge .mode-icon {
+  font-size: 14px;
+}
+
+.mode-cube {
+  color: #00f0ff;
+}
+
+.mode-ship {
+  color: #ffad5c;
+
+  border-color:
+    rgba(255,173,92,.45) !important;
+}
+
+.mode-ufo {
+  color: #fff44d;
+
+  border-color:
+    rgba(255,244,77,.45) !important;
+}
+
+.mode-robot {
+  color: #c77dff;
+
+  border-color:
+    rgba(199,125,255,.45) !important;
+}
+
+@media (max-width: 650px) {
+
+  #gd-expansion-ui {
+    width: min(94vw, 520px);
+  }
+
+  .gd-level-card {
+    min-height: 155px;
+
+    padding: 16px;
+
+    grid-template-columns:
+      48px
+      1fr
+      auto;
+
+    gap: 5px 11px;
+  }
+
+  .gd-card-icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 13px;
+
+    font-size: 23px;
+  }
+
+  .gd-card-mode {
+    font-size: 9px;
+  }
+
+  .gd-arrow {
+    flex-basis: 40px;
+
+    width: 40px;
+    height: 40px;
+
+    font-size: 28px;
+  }
+
+  .gd-hint {
+    display: none;
+  }
+}
+
+@media (max-height: 720px) {
+
+  .menu-box {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .subtitle {
+    margin-bottom: 8px;
+  }
+
+  #gd-expansion-ui {
+    margin-top: 0;
+  }
+
+  .gd-level-card {
+    min-height: 135px;
+    padding: 13px 16px;
+  }
+
+  .gd-top-controls {
+    margin-bottom: 4px;
+  }
+
+  .gd-hint {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   UI FIX — TAMBAHKAN DI PALING BAWAH style.css
+   ========================================================================== */
+
+.menu-box {
+    width: min(94vw, 760px);
+    max-width: 760px;
+    max-height: 96vh;
+    overflow: visible;
+    margin: auto;
+}
+
+.menu-box .level-select {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 14px auto 12px;
+    padding: 0;
+}
+
+.gd-level-picker {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+}
+
+.gd-carousel-window {
+    width: min(320px, calc(100vw - 150px));
+    height: 330px;
+    overflow: hidden;
+    position: relative;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.025)
+        );
+
+    border: 1px solid rgba(0,240,255,.16);
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.35),
+        inset 0 0 35px rgba(0,240,255,.025);
+}
+
+.gd-carousel-track {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    transition:
+        transform .32s cubic-bezier(.22,.61,.36,1);
+
+    will-change: transform;
+}
+
+.gd-level-card {
+    position: relative;
+
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+
+    padding: 24px 22px;
+
+    border: 0;
+    border-radius: 22px;
+
+    color: #fff;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 22%,
+            rgba(0,240,255,.12),
+            transparent 38%
+        ),
+        linear-gradient(
+            160deg,
+            #201d2b,
+            #10121c
+        );
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    transition:
+        transform .2s ease,
+        filter .2s ease;
+}
+
+.gd-level-card:hover:not(.locked) {
+    filter: brightness(1.12);
+}
+
+.gd-level-card:active:not(.locked) {
+    transform: scale(.98);
+}
+
+.gd-level-card.locked {
+    cursor: not-allowed;
+    filter: grayscale(.45);
+    opacity: .58;
+}
+
+.gd-card-glow {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+
+    top: -80px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(0,240,255,.08);
+
+    filter: blur(35px);
+
+    pointer-events: none;
+}
+
+.gd-card-icon {
+    position: relative;
+
+    width: 72px;
+    height: 72px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 9px;
+
+    border-radius: 19px;
+
+    background:
+        rgba(0,240,255,.08);
+
+    border:
+        1px solid rgba(0,240,255,.22);
+
+    color: var(--neon-cyan);
+
+    font-size: 38px;
+
+    text-shadow:
+        0 0 16px currentColor;
+
+    box-shadow:
+        0 0 25px rgba(0,240,255,.08);
+}
+
+.gd-card-number {
+    color: #7f96a8;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    margin-top: 4px;
+}
+
+.gd-card-name {
+    margin-top: 4px;
+
+    color: #fff;
+
+    font-size: 23px;
+    font-weight: 900;
+
+    letter-spacing: .5px;
+}
+
+.gd-card-difficulty {
+    margin-top: 7px;
+
+    padding: 5px 13px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    letter-spacing: 1.3px;
+
+    border: 1px solid currentColor;
+    background: rgba(255,255,255,.035);
+}
+
+.gd-difficulty-easy {
+    color: var(--neon-green);
+}
+
+.gd-difficulty-normal {
+    color: var(--neon-yellow);
+}
+
+.gd-difficulty-hard {
+    color: #ffad5c;
+}
+
+.gd-difficulty-harder {
+    color: #ff735c;
+}
+
+.gd-difficulty-insane {
+    color: #ff4d8d;
+}
+
+.gd-difficulty-demon {
+    color: var(--neon-purple);
+}
+
+.gd-card-stats {
+    width: 82%;
+
+    display: flex;
+    justify-content: space-around;
+
+    margin-top: 14px;
+    padding: 10px 0;
+
+    border-top:
+        1px solid rgba(255,255,255,.08);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
+
+    color: #8196a5;
+
+    font-size: 8px;
+    font-weight: 900;
+
+    letter-spacing: 1px;
+}
+
+.gd-card-stats span {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.gd-card-stats b {
+    color: var(--neon-cyan);
+    font-size: 12px;
+}
+
+.gd-card-lock {
+    position: absolute;
+
+    top: 14px;
+    right: 16px;
+
+    font-size: 15px;
+
+    color: var(--neon-green);
+}
+
+.gd-card-action {
+    margin-top: 13px;
+
+    width: 82%;
+
+    padding: 10px;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--neon-cyan),
+            var(--neon-pink)
+        );
+
+    color: #061018;
+
+    font-size: 10px;
+    font-weight: 1000;
+
+    letter-spacing: 1.5px;
+
+    box-shadow:
+        0 7px 20px rgba(0,240,255,.13);
+}
+
+.gd-level-card.locked .gd-card-action {
+    background: rgba(255,255,255,.08);
+    color: #71818e;
+    box-shadow: none;
+}
+
+.gd-carousel-arrow {
+    flex: 0 0 46px;
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(0,240,255,.22);
+
+    background:
+        rgba(18,18,31,.88);
+
+    color: var(--neon-cyan);
+
+    font-family: inherit;
+
+    font-size: 31px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        transform .18s ease,
+        background .18s ease,
+        box-shadow .18s ease;
+}
+
+.gd-carousel-arrow:hover {
+    transform: scale(1.08);
+
+    background:
+        rgba(0,240,255,.1);
+
+    box-shadow:
+        0 0 20px rgba(0,240,255,.12);
+}
+
+.gd-carousel-arrow:active {
+    transform: scale(.94);
+}
+
+.gd-carousel-dots {
+    min-height: 16px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 10px;
+}
+
+.gd-carousel-dot {
+    width: 7px;
+    height: 7px;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.22);
+
+    cursor: pointer;
+
+    transition:
+        width .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.gd-carousel-dot.active {
+    width: 24px;
+
+    border-radius: 999px;
+
+    background:
+        var(--neon-cyan);
+
+    box-shadow:
+        0 0 10px var(--neon-cyan);
+}
+
+.global-stats {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 24px;
+
+    margin-top: 4px;
+}
+
+.controls-hint {
+    margin-top: 12px;
+}
+
+@media (max-width: 650px) {
+
+    .menu-box {
+        width: 94vw;
+        max-height: 94vh;
+    }
+
+    .game-title {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    .subtitle {
+        margin-bottom: 12px;
+    }
+
+    .gd-level-picker {
+        gap: 7px;
+    }
+
+    .gd-carousel-window {
+        width: min(
+            285px,
+            calc(100vw - 125px)
+        );
+
+        height: 310px;
+    }
+
+    .gd-carousel-arrow {
+        flex-basis: 40px;
+
+        width: 40px;
+        height: 40px;
+
+        font-size: 27px;
+    }
+
+    .gd-card-icon {
+        width: 60px;
+        height: 60px;
+
+        font-size: 31px;
+    }
+
+    .gd-card-name {
+        font-size: 19px;
+    }
+
+    .gd-card-stats {
+        width: 88%;
+    }
+}
+
+@media (max-height: 760px) {
+
+    .menu-box {
+        transform: scale(.88);
+    }
+
+    .gd-carousel-window {
+        height: 285px;
+    }
+
+    .gd-card-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 28px;
+    }
+
+    .gd-card-name {
+        font-size: 18px;
+    }
+
+    .gd-card-stats {
+        margin-top: 9px;
+    }
+
+    .gd-card-action {
+        margin-top: 8px;
+        padding: 8px;
+    }
+
+    .controls-hint {
+        margin-top: 7px;
+    }
 }

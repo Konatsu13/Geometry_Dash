@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Geometry Rush - Neon Clone</title>
 <link rel="stylesheet" href="style.css">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
 
@@ -21,40 +20,57 @@
       <h1 class="game-title">
         <span class="title-geo">GEOMETRY</span><span class="title-rush">RUSH</span>
       </h1>
-      <p class="subtitle">// A Vanilla JS Geometry Dash Clone //</p>
+      <p class="subtitle">A Vanilla JS Geometry Dash Clone </p>
 
-      <div class="level-select">
 
-        <button class="level-card" id="btn-level-easy" data-level="easy">
-          <div class="level-card-header">
-            <span class="level-icon">▲</span>
-            <span class="level-name">LEVEL 1</span>
-          </div>
-          <div class="level-diff diff-easy">EASY</div>
-          <div class="level-stats">
-            <span>Best: <b id="stat-best-easy">0%</b></span>
-            <span>Attempts: <b id="stat-attempt-easy">0</b></span>
-          </div>
-          <div class="play-hint">KLIK UNTUK MAIN</div>
+<div class="level-select">
+
+  <!-- LEVEL CAROUSEL -->
+<section class="level-select">
+    <div class="level-picker">
+
+        <button
+            class="carousel-arrow"
+            id="btn-carousel-prev"
+            type="button"
+            aria-label="Previous level">
+            ‹
         </button>
 
-        <button class="level-card locked" id="btn-level-normal" data-level="normal">
-          <div class="level-card-header">
-            <span class="level-icon">■</span>
-            <span class="level-name">LEVEL 2</span>
-          </div>
-          <div class="level-diff diff-normal">NORMAL</div>
-          <div class="level-stats">
-            <span>Best: <b id="stat-best-normal">0%</b></span>
-            <span>Attempts: <b id="stat-attempt-normal">0</b></span>
-          </div>
-          <div class="lock-overlay">
-            <span class="lock-icon">🔒</span>
-            <span class="lock-text">Selesaikan Level 1 (100%)</span>
-          </div>
+        <div
+            class="level-carousel-viewport"
+            id="level-carousel-viewport">
+
+            <div
+                class="level-carousel-track"
+                id="level-carousel-track">
+            </div>
+
+        </div>
+
+        <button
+            class="carousel-arrow"
+            id="btn-carousel-next"
+            type="button"
+            aria-label="Next level">
+            ›
         </button>
 
-      </div>
+    </div>
+
+    <div
+        class="carousel-dots"
+        id="carousel-dots">
+
+        <button class="dot active" data-index="0"></button>
+        <button class="dot" data-index="1"></button>
+        <button class="dot" data-index="2"></button>
+        <button class="dot" data-index="3"></button>
+        <button class="dot" data-index="4"></button>
+        <button class="dot" data-index="5"></button>
+
+    </div>
+</section>
 
       <div class="global-stats">
         <span>Total Percobaan: <b id="stat-total-attempts">0</b></span>
@@ -144,7 +160,8 @@
   </section>
 
 </div>
-
+<script src="gd-expansion.js"></script>
 <script src="script.js"></script>
+
 </body>
 </html>
