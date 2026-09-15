@@ -1,48 +1,61 @@
-# 🔷 Syntax Runner - Geometry Dash Web Clone
+# ⬛ Cube Runner - Neon Cyberpunk Dash
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-**Syntax Runner** is a 2D web-based rhythm runner game inspired by the classic mechanics of *Geometry Dash*. Built entirely using vanilla web technologies (HTML, CSS, and JavaScript), it runs natively in any modern web browser without external frameworks or game engines.
-
-This project was developed as part of the **Web Programming (MK3-B)** course assignment at SMK Telkom Purwokerto.
+**Cube Runner** adalah game rhythm runner platformer 2D berbasis web yang terinspirasi oleh mekanik *Geometry Dash*. Dibangun murni menggunakan teknologi web modern vanilla (HTML5 Canvas, CSS3 Glassmorphism, dan JavaScript ES6+) tanpa framework/engine eksternal.
 
 ---
 
-## 🚀 Key Features
+## 🚀 Fitur Utama
 
-- **2D Physics & Player Mechanics**: Dynamic cube physics with realistic gravity calculations and a smooth 90° rotation animation upon jumping.
-- **Level System**:
-  - 🟢 **Easy Level**: Slower game speed with single, spaced-out spike obstacles.
-  - 🔴 **Normal Level**: Faster pace featuring double spikes and elevated block platforms (Locked until Level 1 is completed).
-- **Real-Time Progress Tracking**: Live percentage bar (0% - 100%) and an automatic **Attempt Counter**.
-- **Data Persistence (LocalStorage)**:
-  - Saves the highest progress percentage achieved per level.
-  - Automatically handles level unlocking state.
-  - Tracks cumulative death and attempt statistics.
-- **Audio & Visual Effects**: Integrated Web Audio SFX (jump & death sounds), looping background music (BGM), and particle effects upon jumping or crashing.
-- **Precise Collision Detection**: A bounding-box system distinguishing between landing safely on platform blocks and hitting dangerous spikes.
+- **Multi-Gamemode Mechanics (Geometry Dash Style)**:
+  - ⬛ **Cube Mode**: Gravitasi responsif, rotasi flip 90°, coyote time, dan jump buffering.
+  - 🚀 **Ship / Fly Mode**: Tahan lompat/klik untuk terbang naik dengan akselerasi propulsi, efek semburan api roket, dan rotasi pitch dinamis.
+  - 🛸 **UFO Mode**: Mengepak di udara (*mid-air pulse hop*) untuk menavigasi terowongan rintangan sempit.
+  - 🌀 **Warp Portals**: Gerbang portal bercahaya yang mentransformasi mode karakter secara instan di dalam level.
+- **6 Level Unik & Akses Terbuka Default**:
+  1. 🟢 **Level 1: Stereo Start** (Easy) — Audio BGM dari file `./assets/level1.mp3`.
+  2. 🟡 **Level 2: Neon Steps** (Normal) — Platform bertingkat dan lompatan ritmis.
+  3. 🟢 **Level 3: Sky Machine** (Hard) — Pengenalan mode Ship (Fly) menembus lorong langit.
+  4. 🟠 **Level 4: Cosmic Pulse** (Harder) — Mode UFO & manuver lompat udara.
+  5. 🔴 **Level 5: Factory Overheat** (Insane) — Tantangan berkecepatan tinggi multi-mode.
+  6. 🟣 **Level 6: Demon Overdrive** (Demon) — Ujian pamungkas refleks dan presisi ekstrem.
+- **UI/UX Cyberpunk Glassmorphism Spektakuler**:
+  - Carousel Level interaktif dengan efek 3D Card glow & swipe gesture.
+  - HUD In-Game dinamis (Progress bar neon, Attempt counter, Indikator Gamemode aktif).
+  - Modal Pause, Crash Game Over, dan Level Complete Victory yang memukau.
+  - Semantik `<footer>` copyright modern.
+- **Sistem Audio Canggih**:
+  - Integrasi berkas `./assets/level1.mp3` untuk Level 1.
+  - Multi-track Synthwave Web Audio synthesizer dinamis untuk Level 2–6.
+  - SFX lompat, ledakan, portal warp, kemenangan, dan toggle Sound Mute.
+- **Penyimpanan Lokal (LocalStorage)**:
+  - Menyimpan rekor persentase (Best Record) dan jumlah percobaan (Attempts) per level secara permanen.
 
 ---
 
-## 🛠️ Tech Stack
+## 🎮 Kontrol Game
 
-- **HTML5**: Markup structure and the core `<canvas>` rendering context.
-- **CSS3**: Cyberpunk/neon visual styling, UI modals, and responsive layout scaling.
-- **JavaScript (ES6+)**: Game loop state management (`requestAnimationFrame`), physics engine, collision detection, Web Audio API, and LocalStorage management.
+- **Lompat / Terbang**: `[SPACE]`, `[PANAH ATAS]`, `[W]`, atau `[KLIK MOUSE]` / `[SENTUH LAYAR]`
+- **Pause**: `[ESC]` atau tombol pause ⏸ di HUD
+- **Navigasi Level**: Tombol panah ‹ ›, swipe layar, atau klik langsung kartu level
 
 ---
 
-## 📁 Project Structure
+## 📁 Struktur Berkas
 
 ```text
-syntax-runner/
+Geometry_Dash/
 │
-├── index.html          # Main entry point and UI overlay elements
-├── style.css           # Global layout, cyberpunk aesthetics, and typography
-├── script.js           # Core game engine, canvas rendering, and local storage logic
-└── assets/             # Project media assets
-    ├── jump.mp3        # Jump sound effect
-    ├── hit.mp3         # Death/Game Over sound effect
-    └── bgm.mp3         # Background music loop
+├── index.html          # Markup antarmuka, canvas, HUD, dan modal
+├── style.css           # Tema Cyberpunk Neon, Glassmorphism, dan tata letak responsif
+├── script.js           # Engine game terpadu (Fisika, Level Builder, Audio, Partikel, Kolisi)
+└── assets/
+    └── level1.mp3      # Audio musik latar Level 1
+```
+
+---
+
+© 2026 Cube Runner. Built with Vanilla JS & HTML5 Canvas.

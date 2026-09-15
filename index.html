@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Geometry Rush - Neon Clone</title>
-<link rel="stylesheet" href="style.css">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cube Runner - Rhythm Platformer</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
 
@@ -14,86 +14,73 @@
   <!-- ============ BACKGROUND DECOR ============ -->
   <div class="bg-grid"></div>
   <div class="bg-glow"></div>
+  <div id="portal-flash"></div>
 
   <!-- ============ MAIN MENU SCREEN ============ -->
   <section id="menu-screen" class="screen active">
     <div class="menu-box">
-      <h1 class="game-title">
-        <span class="title-geo">GEOMETRY</span><span class="title-rush">RUSH</span>
-      </h1>
-      <p class="subtitle">A Vanilla JS Geometry Dash Clone </p>
+      <header class="game-header">
+        <h1 class="game-title">
+          <span class="title-cube">CUBE</span><span class="title-runner">RUNNER</span>
+        </h1>
+        <p class="subtitle">Precision Rhythm Action Platformer</p>
+      </header>
 
-
-<div class="level-select">
-
-  <!-- LEVEL CAROUSEL -->
-<section class="level-select">
-    <div class="level-picker">
-
-        <button
-            class="carousel-arrow"
-            id="btn-carousel-prev"
-            type="button"
-            aria-label="Previous level">
-            ‹
-        </button>
-
-        <div
-            class="level-carousel-viewport"
-            id="level-carousel-viewport">
-
-            <div
-                class="level-carousel-track"
-                id="level-carousel-track">
+      <!-- LEVEL SELECTOR CAROUSEL -->
+      <div class="level-select-container">
+        <div class="carousel-wrapper">
+          <button class="carousel-arrow" id="btn-carousel-prev" type="button" aria-label="Level Sebelumnya">‹</button>
+          
+          <div class="level-carousel-viewport" id="level-carousel-viewport">
+            <div class="level-carousel-track" id="level-carousel-track">
+              <!-- Kartu Level diisi secara dinamis oleh JavaScript -->
             </div>
+          </div>
 
+          <button class="carousel-arrow" id="btn-carousel-next" type="button" aria-label="Level Berikutnya">›</button>
         </div>
 
-        <button
-            class="carousel-arrow"
-            id="btn-carousel-next"
-            type="button"
-            aria-label="Next level">
-            ›
-        </button>
-
-    </div>
-
-    <div
-        class="carousel-dots"
-        id="carousel-dots">
-
-        <button class="dot active" data-index="0"></button>
-        <button class="dot" data-index="1"></button>
-        <button class="dot" data-index="2"></button>
-        <button class="dot" data-index="3"></button>
-        <button class="dot" data-index="4"></button>
-        <button class="dot" data-index="5"></button>
-
-    </div>
-</section>
-
-      <div class="global-stats">
-        <span>Total Percobaan: <b id="stat-total-attempts">0</b></span>
-        <span id="mute-toggle" class="mute-btn">🔊 SOUND ON</span>
+        <div class="carousel-dots" id="carousel-dots">
+          <!-- Dots diisi secara dinamis oleh JavaScript -->
+        </div>
       </div>
 
-      <p class="controls-hint">Kontrol: <b>[SPACE]</b> atau <b>[KLIK/TAP]</b> untuk melompat</p>
+      <div class="global-stats">
+        <span class="stat-badge">Total Percobaan: <b id="stat-total-attempts">0</b></span>
+        <button id="mute-toggle" class="mute-btn" type="button">🔊 SOUND ON</button>
+        <button id="btn-claim-reward" class="reward-btn hidden" type="button">👑 MASTER REWARD</button>
+      </div>
+
+      <p class="controls-hint">
+        Kontrol: <b>[SPACE]</b> / <b>[KLIK]</b> / <b>[SENTUH]</b> untuk Melompat / Terbang
+      </p>
+
+      <footer class="game-footer">
+        <p>© 2026 Cube Runner. Fathan & Tania &amp; HTML5 Canvas.</p>
+      </footer>
     </div>
   </section>
 
   <!-- ============ IN-GAME SCREEN ============ -->
   <section id="game-screen" class="screen">
     <div class="hud">
+      <div class="hud-left">
+        <span class="level-badge" id="hud-level-title">LEVEL 1</span>
+        <span class="mode-badge" id="hud-mode-badge">
+          <span class="mode-icon">⬛</span> <span class="mode-text">CUBE</span>
+        </span>
+      </div>
+
       <div class="progress-wrap">
         <div class="progress-bar-bg">
           <div class="progress-bar-fill" id="progress-fill"></div>
         </div>
         <span class="progress-percent" id="progress-percent">0%</span>
       </div>
+
       <div class="hud-right">
         <span class="attempt-badge" id="attempt-badge">Attempt #1</span>
-        <button class="icon-btn" id="btn-pause">⏸</button>
+        <button class="icon-btn" id="btn-pause" type="button" title="Pause Game">⏸</button>
       </div>
     </div>
 
@@ -102,9 +89,11 @@
     <!-- Pause Overlay -->
     <div id="pause-overlay" class="overlay hidden">
       <div class="overlay-box">
-        <h2>PAUSED</h2>
-        <button class="btn btn-neon" id="btn-resume">▶ LANJUTKAN</button>
-        <button class="btn btn-outline" id="btn-pause-menu">⏹ MENU UTAMA</button>
+        <h2 class="overlay-title">PAUSED</h2>
+        <div class="overlay-buttons">
+          <button class="btn btn-neon" id="btn-resume">▶ LANJUTKAN</button>
+          <button class="btn btn-outline" id="btn-pause-menu">⏹ MENU UTAMA</button>
+        </div>
       </div>
     </div>
   </section>
@@ -112,9 +101,10 @@
   <!-- ============ GAME OVER SCREEN ============ -->
   <section id="gameover-screen" class="screen">
     <div class="result-box gameover-box">
-      <h2 class="result-title go-title">GAME OVER</h2>
-      <div class="crash-icon">✕</div>
-      <p class="result-desc">Kamu hancur berkeping-keping...</p>
+      <h2 class="result-title go-title">CRASHED!</h2>
+      <div class="crash-icon">💥</div>
+      <p class="result-desc">Kubus hancur berkeping-keping...</p>
+      
       <div class="result-stats">
         <div class="stat-item">
           <span class="stat-label">Progress</span>
@@ -129,8 +119,9 @@
           <span class="stat-value" id="go-best">0%</span>
         </div>
       </div>
+
       <div class="result-actions">
-        <button class="btn btn-neon" id="btn-retry">↻ RETRY</button>
+        <button class="btn btn-neon" id="btn-retry">↻ COBA LAGI</button>
         <button class="btn btn-outline" id="btn-gohome">⌂ MENU UTAMA</button>
       </div>
     </div>
@@ -140,29 +131,47 @@
   <section id="victory-screen" class="screen">
     <div class="result-box victory-box">
       <h2 class="result-title win-title">LEVEL COMPLETE!</h2>
-      <div class="win-icon">★</div>
-      <p class="result-desc" id="win-desc">Kamu berhasil mencapai garis finish!</p>
+      <div class="win-icon">🏆</div>
+      <p class="result-desc" id="win-desc">Luar biasa! Kamu berhasil menaklukkan level ini!</p>
+      
       <div class="result-stats">
         <div class="stat-item">
           <span class="stat-label">Progress</span>
           <span class="stat-value">100%</span>
         </div>
         <div class="stat-item">
-          <span class="stat-label">Attempt</span>
+          <span class="stat-label">Total Attempt</span>
           <span class="stat-value" id="win-attempt">#1</span>
         </div>
       </div>
-      <p class="unlock-msg hidden" id="unlock-msg">🔓 LEVEL 2 (NORMAL) TERBUKA!</p>
+
       <div class="result-actions">
+        <button class="btn btn-neon hidden" id="btn-win-reward">👑 BUKA MASTER REWARD</button>
         <button class="btn btn-neon" id="btn-next">→ LEVEL BERIKUTNYA</button>
         <button class="btn btn-outline" id="btn-victory-home">⌂ MENU UTAMA</button>
       </div>
     </div>
   </section>
 
-</div>
-<script src="gd-expansion.js"></script>
-<script src="script.js"></script>
+  <!-- ============ MASTER REWARD MODAL (RICKROLL) ============ -->
+  <div id="reward-modal" class="overlay hidden">
+    <div class="overlay-box reward-box">
+      <div class="reward-crown">👑</div>
+      <h2 class="result-title win-title">MASTER REWARD!</h2>
+      <p class="result-desc">Selamat! Kamu berhasil menaklukkan seluruh 6 Level dengan rekor 100%! Ini hadiah spesial eksklusif untukmu:</p>
+      
+      <div class="video-container">
+        <iframe id="reward-iframe" width="100%" height="220" src="" title="Special Champion Reward" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
 
+      <div class="result-actions" style="margin-top: 16px;">
+        <button class="btn btn-neon" id="btn-close-reward">TUTUP HADIAH</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
