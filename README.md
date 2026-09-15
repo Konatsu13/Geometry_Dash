@@ -4,45 +4,45 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-**Syntax Runner** adalah proyek game 2D berbasis web yang terinspirasi dari mekanisme permainan *Geometry Dash*. Dibuat secara penuh menggunakan teknologi dasar web (Vanilla HTML, CSS, dan JavaScript) tanpa bantuan *framework* atau *engine* eksternal.
+**Syntax Runner** is a 2D web-based rhythm runner game inspired by the classic mechanics of *Geometry Dash*. Built entirely using vanilla web technologies (HTML, CSS, and JavaScript), it runs natively in any modern web browser without external frameworks or game engines.
 
-Proyek ini dikembangkan sebagai bagian dari tugas mata pelajaran **Pemrograman Website (MK3-B)** di SMK Telkom Purwokerto.
-
----
-
-## 🚀 Fitur Utama
-
-- **Karakter & Fisika 2D**: Pergerakan kubus dinamis dengan perhitungan gravitasi dan animasi rotasi 90° setiap melompat.
-- **Sistem Level**:
-  - 🟢 **Easy**: Kecepatan lambat dengan rintangan duri tunggal.
-  - 🔴 **Normal**: Kecepatan lebih tinggi dengan variasi duri ganda dan balok pijakan (terkunci hingga level Easy tamat).
-- **Indikator Progres Real-Time**: Bar persentase (0% - 100%) dan penghitung percobaaan (*Attempt Counter*).
-- **Penyimpanan Lokal (LocalStorage)**:
-  - Menyimpan rekor persentase tertinggi tiap level.
-  - Menyimpan status pembukaan level (*unlocked levels*).
-  - Akumulasi jumlah kematian/percobaan pemain.
-- **Efek Audio & Visual**: Efek suara (*Jump* & *Death SFX*), musik latar (*BGM*), serta efek partikel saat kubus melompat atau menabrak rintangan.
-- **Deteksi Tabrakan (Collision Detection)**: Logika presisi untuk membedakan mendarat di atas balok atau menabrak rintangan.
+This project was developed as part of the **Web Programming (MK3-B)** course assignment at SMK Telkom Purwokerto.
 
 ---
 
-## 🛠️ Teknologi yang Digunakan
+## 🚀 Key Features
 
-- **HTML5**: Struktur UI dan wadah grafis elemen `<canvas>`.
-- **CSS3**: Styling antarmuka (*UI/UX*) bergaya neon/cyberpunk dan responsivitas layar.
-- **JavaScript (ES6+)**: Logika game loop (`requestAnimationFrame`), fisika canvas, collision detection, Web Audio API, dan manipulasi LocalStorage.
+- **2D Physics & Player Mechanics**: Dynamic cube physics with realistic gravity calculations and a smooth 90° rotation animation upon jumping.
+- **Level System**:
+  - 🟢 **Easy Level**: Slower game speed with single, spaced-out spike obstacles.
+  - 🔴 **Normal Level**: Faster pace featuring double spikes and elevated block platforms (Locked until Level 1 is completed).
+- **Real-Time Progress Tracking**: Live percentage bar (0% - 100%) and an automatic **Attempt Counter**.
+- **Data Persistence (LocalStorage)**:
+  - Saves the highest progress percentage achieved per level.
+  - Automatically handles level unlocking state.
+  - Tracks cumulative death and attempt statistics.
+- **Audio & Visual Effects**: Integrated Web Audio SFX (jump & death sounds), looping background music (BGM), and particle effects upon jumping or crashing.
+- **Precise Collision Detection**: A bounding-box system distinguishing between landing safely on platform blocks and hitting dangerous spikes.
 
 ---
 
-## 📁 Struktur Folder Proyek
+## 🛠️ Tech Stack
+
+- **HTML5**: Markup structure and the core `<canvas>` rendering context.
+- **CSS3**: Cyberpunk/neon visual styling, UI modals, and responsive layout scaling.
+- **JavaScript (ES6+)**: Game loop state management (`requestAnimationFrame`), physics engine, collision detection, Web Audio API, and LocalStorage management.
+
+---
+
+## 📁 Project Structure
 
 ```text
 syntax-runner/
 │
-├── index.html          # Halaman utama & struktur UI modal
-├── style.css           # Styling tampilan, font, & layout
-├── script.js           # Logika utama game engine & LocalStorage
-└── assets/             # Folder aset pendukung (gambar/suara)
-    ├── jump.mp3        # Efek suara melompat
-    ├── hit.mp3         # Efek suara saat game over
-    └── bgm.mp3         # Musik latar permainan
+├── index.html          # Main entry point and UI overlay elements
+├── style.css           # Global layout, cyberpunk aesthetics, and typography
+├── script.js           # Core game engine, canvas rendering, and local storage logic
+└── assets/             # Project media assets
+    ├── jump.mp3        # Jump sound effect
+    ├── hit.mp3         # Death/Game Over sound effect
+    └── bgm.mp3         # Background music loop
